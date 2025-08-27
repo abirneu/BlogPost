@@ -1,0 +1,92 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="card mb-5 shadow-lg border-0">
+        <div class="card-body">
+            <h1 class="card-title display-6 fw-bold">{{ post.title }}</h1>
+            <p class="text-muted mb-2">
+                By <strong>{{ post.author }}</strong> • {{ post.created_at|date:"F d, Y" }}
+            </p>
+            
+            <!-- Category & Tags -->
+            <div class="mb-3">
+                <span class="badge bg-info text-dark me-2">
+                    📂 {{ post.category.name }}
+                </span>
+                {% for tag in post.tags.all %}
+                    <span class="badge bg-secondary me-1">🏷️ {{ tag.name }}</span>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+            <!-- Post Content -->
+            <p class="card-text fs-5" style="white-space: pre-line;">{{ post.content | safe }}</p>
+
+            <!-- Like & View Section -->
+            <div class="mt-4 d-flex align-items-center flex-wrap gap-2">
+                {% if is_liked %}
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'like_post' post.id %}">
+                    👎🏻 Unlike
+                </a>
+                {% else %}
+                <a class="btn btn-outline-primary btn-sm" href="{% url 'like_post' post.id %}">
+                    👍🏻 Like
+                </a>
+                {% endif %}
+
+                <span class="badge bg-primary text-white">
+                    👁️ {{ post.view_count }} views
+                </span>
+                <span class="badge bg-success text-white">
+                    ❤️ {{ like_count }} likes
+                </span>
+            </div>
+
+            {% if user == post.author %}
+            <div class="mt-4">
+                <a href="{% url 'post_update' post.id %}" class="btn btn-warning btn-sm me-2">✏️ Edit</a>
+                <a href="{% url 'post_delete' post.id %}" class="btn btn-danger btn-sm">🗑️ Delete</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 💬 Comments Section -->
+    <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">💬 Comments</h5>
+        </div>
+        <div class="card-body">
+
+            {% if user.is_authenticated %}
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                {{comment_form | crispy}}
+                <button type="submit" class="btn btn-primary btn-sm mt-2">➕ Add Comment</button>
+            </form>
+            {% else %}
+            <p class="text-muted">You must be <a href="{% url 'login' %}">logged in</a> to comment.</p>
+            {% endif %}
+
+            {% for comment in comments %}
+            <div class="mb-3 p-3 bg-light rounded shadow-sm">
+                <h6 class="mb-1">{{ comment.author }}</h6>
+                <small class="text-muted d-block mb-2">{{ comment.created_at|date:"F d, Y H:i" }}</small>
+                <p class="mb-0">{{ comment.content }}</p>
+            </div>
+            {% empty %}
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

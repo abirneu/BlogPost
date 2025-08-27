@@ -1,0 +1,319 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section with modern gradient and animation -->
+<section class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
+        <svg width="400" height="400" viewBox="0 0 200 200">
+            <path fill="currentColor" d="M45,-74.3C59.1,-69.2,71.7,-58.3,79.4,-44.1C87.1,-29.9,90,-12.5,87.9,3.9C85.8,20.2,78.8,35.5,67.8,46.6C56.8,57.7,41.9,64.6,26.5,70.3C11.1,76,-4.8,80.5,-19.2,78.3C-33.6,76.1,-46.5,67.2,-58.1,55.5C-69.7,43.8,-80,29.3,-83.2,13.4C-86.5,-2.5,-82.6,-19.7,-74.2,-34.1C-65.8,-48.5,-52.9,-60.1,-38.7,-65.2C-24.5,-70.2,-9.1,-68.7,4.3,-66C17.7,-63.3,30.9,-59.4,45,-74.3Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight animate-fade-in-down">
+                Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">Abir's Blog</span>
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-xl text-blue-100 font-light animate-fade-in-up">
+                Discover fascinating stories, insights, and knowledge shared by our community of writers.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up">
+                <a href="{% url 'post_list' %}" class="px-8 py-4 bg-white text-blue-900 font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                    <span>Explore Blog Posts</span>
+                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'signup' %}" class="px-8 py-4 border-2 border-white text-white font-medium rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
+                    Join Our Community
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
+</section>
+
+<!-- Featured Posts Section -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Articles</span></h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Handpicked selection of our most insightful and engaging content
+            </p>
+        </div>
+        
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for post in latest_posts|slice:":3" %}
+            <article class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group">
+                <div class="relative overflow-hidden">
+                    {% if post.image %}
+                    <img class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ post.image.url }}" alt="{{ post.title }}">
+                    {% else %}
+                    <div class="h-48 w-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                    </div>
+                    {% endif %}
+                    <div class="absolute top-4 left-4">
+                        <span class="px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-full">
+                            {{ post.category.name }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                        <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+                    </h3>
+                    <p class="mt-3 text-gray-600 dark:text-gray-300 line-clamp-3">
+                        {{ post.content|striptags|truncatewords:25 }}
+                    </p>
+                    
+                    <div class="mt-6 flex items-center">
+                        <div class="flex-shrink-0">
+                            {% if post.author.profile.image %}
+                            <img class="h-10 w-10 rounded-full object-cover" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}">
+                            {% else %}
+                            <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-400 to-indigo-500 flex items-center justify-center text-white font-medium">
+                                {{ post.author.username|make_list|first|upper }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                {{ post.author.username }}
+                            </p>
+                            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400">
+                                <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"M j, Y" }}</time>
+                                <span class="mx-2">•</span>
+                                <span>{{ post.read_time }} min read</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'post_list' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all">
+                View All Articles
+                <svg class="ml-2 -mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Posts Section -->
+<section class="py-16 bg-white dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Trending <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Now</span></h2>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">What our community is reading right now</p>
+            </div>
+            <a href="{% url 'post_list' %}" class="mt-4 md:mt-0 inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+                View all trending
+                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for post in trending_posts|slice:":4" %}
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 hover:shadow-md transition-shadow flex items-start space-x-4 group">
+                <div class="flex-shrink-0 relative">
+                    {% if post.image %}
+                    <img class="w-20 h-20 rounded-lg object-cover" src="{{ post.image.url }}" alt="{{ post.title }}">
+                    {% else %}
+                    <div class="w-20 h-20 rounded-lg bg-gradient-to-r from-blue-400 to-indigo-500 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                    </div>
+                    {% endif %}
+                    <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                        {{ forloop.counter }}
+                    </div>
+                </div>
+                
+                <div class="flex-1 min-w-0">
+                    <span class="text-xs font-medium text-blue-600 dark:text-blue-400">{{ post.category.name }}</span>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <a href="{% url 'post_details' post.id %}">{{ post.title }}</a>
+                    </h3>
+                    <div class="mt-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            {{ post.view_count }}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ post.created_at|timesince }} ago
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Explore by <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Category</span></h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Discover content tailored to your interests
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for category in categories %}
+            <a href="{% url 'post_list' %}?category={{ category.name }}" 
+               class="group relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="relative z-10">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {{ category.name }}
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        {{ category.post_set.count }} articles
+                    </p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-800 dark:to-indigo-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold">Our Community <span class="text-blue-200">by Numbers</span></h2>
+            <p class="mt-4 text-blue-100 max-w-2xl mx-auto">
+                Join thousands of readers and writers who are already part of our growing community
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                <div class="text-5xl font-bold mb-2">{{ total_posts }}+</div>
+                <div class="text-blue-200 font-medium">Articles Published</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                <div class="text-5xl font-bold mb-2">{{ total_authors }}+</div>
+                <div class="text-blue-200 font-medium">Creative Writers</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                <div class="text-5xl font-bold mb-2">{{ total_comments }}+</div>
+                <div class="text-blue-200 font-medium">Engaging Comments</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-white dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl overflow-hidden shadow-xl">
+            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+            
+            <div class="relative px-6 py-12 sm:px-12 sm:py-16 lg:py-20 lg:px-16">
+                <div class="lg:flex lg:items-center lg:justify-between">
+                    <div class="lg:w-0 lg:flex-1">
+                        <h2 class="text-3xl font-bold text-white">Stay updated with our latest posts</h2>
+                        <p class="mt-4 max-w-3xl text-lg text-blue-100">
+                            Get the newest articles delivered directly to your inbox. No spam, just quality content.
+                        </p>
+                    </div>
+                    <div class="mt-8 lg:mt-0 lg:ml-8">
+                        <form class="sm:flex">
+                            <label for="email-address" class="sr-only">Email address</label>
+                            <input id="email-address" name="email-address" type="email" autocomplete="email" required 
+                                   class="w-full px-5 py-3 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white rounded-md"
+                                   placeholder="Enter your email">
+                            <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent shadow text-base font-medium rounded-md text-blue-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                                Subscribe
+                            </button>
+                        </form>
+                        <p class="mt-3 text-sm text-blue-200">
+                            We respect your privacy. Unsubscribe at any time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .animate-fade-in-down {
+        animation: fadeInDown 0.8s ease-out;
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .bg-grid-pattern {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
