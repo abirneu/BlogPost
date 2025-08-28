@@ -1,28 +1,196 @@
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Blog Footer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0;
+        }
+        
+        .footer-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        .footer-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-link:hover:after {
+            width: 100%;
+        }
+        
+        .newsletter-input {
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .back-to-top {
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .category-pill {
+            transition: all 0.3s ease;
+        }
+        
+        .category-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    
+    <!-- Modern Footer -->
+    <footer class="footer-gradient text-white rounded-t-2xl shadow-2xl mt-16">
+        <div class="w-full max-w-7xl mx-auto px-4 py-12">
+            <!-- Main footer content -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Brand section -->
+                <div class="lg:col-span-1">
+                    <a href="#" class="flex items-center mb-5">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">A</span>
+                        </div>
+                        <span class="self-center text-2xl font-bold whitespace-nowrap ml-3">Abir's Blog</span>
+                    </a>
+                    <p class="text-gray-300 mt-4 mb-6">
+                        Creating beautiful digital experiences with a focus on user interface design and development.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon text-gray-300 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-300 hover:text-white">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-300 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-300 hover:text-white">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 uppercase tracking-wider">Explore</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="footer-link text-gray-300 hover:text-white">Home</a></li>
+                        <li><a href="#" class="footer-link text-gray-300 hover:text-white">Blog Posts</a></li>
+                        <li><a href="#" class="footer-link text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="#" class="footer-link text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="footer-link text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 uppercase tracking-wider">Categories</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Technology</a>
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Design</a>
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Development</a>
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Lifestyle</a>
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Travel</a>
+                        <a href="#" class="category-pill px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm hover:bg-blue-500 hover:text-white">Productivity</a>
+                    </div>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 uppercase tracking-wider">Stay Updated</h3>
+                    <p class="text-gray-300 mb-4">Subscribe to our newsletter for the latest updates.</p>
+                    <form class="space-y-4">
+                        <div>
+                            <input type="email" placeholder="Your email address" class="newsletter-input w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 focus:border-blue-500 focus:outline-none text-white">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all shadow-lg">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <hr class="my-8 border-gray-700" />
+            
+            <!-- Bottom section -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="footer-link text-gray-300 hover:text-white text-sm">Privacy Policy</a>
+                    <a href="#" class="footer-link text-gray-300 hover:text-white text-sm">Terms of Service</a>
+                    <a href="#" class="footer-link text-gray-300 hover:text-white text-sm">Cookie Policy</a>
+                </div>
+                
+                <span class="text-sm text-gray-400">
+                    © 2025 <a href="https://portfolio-2025-prj8.onrender.com" target="_blank" class="footer-link text-blue-300 hover:text-white font-medium">Abir Hasan</a>. All Rights Reserved.
+                </span>
+            </div>
+        </div>
+        
+        <!-- Back to top button -->
+        <button class="back-to-top fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-md">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </footer>
 
-<footer class="bg-green-100 rounded-lg shadow-sm dark:bg-gray-900 mt-4">
-  <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <a href="{% url 'post_list' %}" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-        {% comment %} <img src="" class="h-8" alt="Flowbite Logo" /> {% endcomment %}
-        <span class="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">Abir</span>
-      </a>
-      <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">About</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline">Contact</a>
-        </li>
-      </ul>
-    </div>
-    <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-    <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://abirneu.github.io/Portfolio/" target="_blank" class="hover:underline">Abir Hasan</a>. All Rights Reserved.</span>
-  </div>
-</footer>
+    <script>
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('opacity-100');
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100');
+            }
+        });
+    </script>
+</body>
+</html>
