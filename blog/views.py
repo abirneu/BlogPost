@@ -183,7 +183,14 @@ def profile_view(request):
                 form.save()
                 return redirect('/profile?section=update')
         else:
-            form = UpdateProfileForm(instance=request.user)
+            # Create form with current user instance and initial data
+            initial_data = {
+                'username': request.user.username,
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email,
+            }
+            form = UpdateProfileForm(instance=request.user, initial=initial_data)
         context['form'] = form
 
     return render(request, 'user/profile.html', context)
