@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Post, Category, Tag, Comment
+from . models import Post, Category, Tag, Comment, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login, logout
@@ -16,12 +16,22 @@ def post_list(request):
     # Get all posts with proper ordering
     posts = Post.objects.select_related('author', 'category').prefetch_related('tag').order_by('-created_at')
 
-    # Filtering posts by category, tag, and search query
+    # Get author search query
+    authorQ = request.GET.get('author')
+
+    # Filtering posts by category, tag, search query, and author
     if categoryQ:
         posts = posts.filter(category__name=categoryQ)
 
     if tagQ:
         posts = posts.filter(tag__name=tagQ)
+
+    if authorQ:
+        posts = posts.filter(
+            Q(author__username__icontains=authorQ) |
+            Q(author__first_name__icontains=authorQ) |
+            Q(author__last_name__icontains=authorQ)
+        ).distinct()
 
     if searchQ:
         posts = posts.filter(
@@ -45,6 +55,7 @@ def post_list(request):
         'categoryQ': categoryQ,
         'tagQ': tagQ,
         'search_query': searchQ,
+        'author_query': authorQ,
     }
 
     # Prepare context data
@@ -128,11 +139,13 @@ def like_post(request, id):
 @login_required
 def post_create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            # Save tags after the post is created
+            form.save_m2m()  # This saves the tags
             return redirect('post_list')
     else:
         form = PostForm()
@@ -142,14 +155,16 @@ def post_create(request):
 def post_update(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == 'POST':
-        form = PostForm(data=request.POST, instance=post)#instance=post karon user edit e gea kichu na likhe submit dile ager j data chilo setai theke jabe
+        form = PostForm(request.POST, request.FILES, instance=post)  # Added request.FILES
         if form.is_valid():
             form.save()
-            return redirect('post_details', id =post.id)
+            # Save tags
+            form.save_m2m()
+            return redirect('post_details', id=post.id)
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/post_create.html', {'form':form})
+    return render(request, 'blog/post_create.html', {'form': form})
     
 @login_required
 def post_delete(request,id):
@@ -171,26 +186,54 @@ def signup_view(request):
 def profile_view(request):
     section = request.GET.get('section', 'profile')
     context = {'section': section}
+    
+    print(f"Section: {section}")  # Debug
 
     if section == 'posts':
         posts = Post.objects.filter(author=request.user)
-        context['posts'] = posts  # <-- use 'posts' not 'post'
+        context['posts'] = posts
 
     elif section == 'update':
         if request.method == 'POST':
-            form = UpdateProfileForm(request.POST, instance=request.user)
-            if form.is_valid():
-                form.save()
-                return redirect('/profile?section=update')
+            print("POST request received")  # Debug
+            print(f"Files: {request.FILES}")  # Debug
+            try:
+                # Begin transaction
+                from django.db import transaction
+                with transaction.atomic():
+                    # Create a new form instance with POST data and files
+                    form = UpdateProfileForm(
+                        data=request.POST,
+                        files=request.FILES,
+                        instance=request.user.profile
+                    )
+                    
+                    if form.is_valid():
+                        print("Form is valid")  # Debug
+                        # Let the form handle all saving logic including the image
+                        profile = form.save()
+                        print(f"Profile image: {profile.image}")  # Debug
+                        print(f"Profile image URL: {profile.image.url if profile.image else 'None'}")  # Debug
+                        
+                        from django.contrib import messages
+                        messages.success(request, 'Your profile has been updated successfully!')
+                        return redirect('profile')
+                    else:
+                        print("Form is invalid")  # Debug
+                        print(f"Form errors: {form.errors}")  # Debug
+                        from django.contrib import messages
+                        messages.error(request, 'Please correct the errors below.')
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Error updating profile: {str(e)}")
+                from django.contrib import messages
+                messages.error(request, 'An error occurred while updating your profile.')
+                print(f"Error: {str(e)}")  # Print the error for debugging
         else:
-            # Create form with current user instance and initial data
-            initial_data = {
-                'username': request.user.username,
-                'first_name': request.user.first_name,
-                'last_name': request.user.last_name,
-                'email': request.user.email,
-            }
-            form = UpdateProfileForm(instance=request.user, initial=initial_data)
+            form = UpdateProfileForm(instance=request.user.profile)
+        
+        # Add form to context only in the update section
         context['form'] = form
 
     return render(request, 'user/profile.html', context)

@@ -4,26 +4,119 @@
 {% block title %}Create Post{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4>Create New Post</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" >
-                        {{form.media}}
-                        {{form | crispy}}
-                        {% csrf_token %}
-                        
-                        <div class="d-grid gap-2 mt-3">
-                            <button class="btn btn-primary" type="submit">Create Post</button>
-                        </div>
-                    </form>
-                </div>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+        <!-- Header -->
+        <div class="relative h-24 bg-gradient-to-r from-indigo-600 to-purple-600">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                <h1 class="text-2xl font-bold text-white">Create New Blog Post</h1>
+                <p class="text-white/80 text-sm mt-1">Share your thoughts with the world</p>
             </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="p-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Image Upload Preview -->
+                <div class="mb-6">
+                    <label for="{{ form.image.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                        Featured Image
+                    </label>
+                    <div class="relative group cursor-pointer">
+                        <div id="imagePreview" class="h-48 w-full bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden flex items-center justify-center transition-all duration-300 hover:border-indigo-500 dark:hover:border-indigo-400">
+                            <div class="text-center p-6" id="uploadText">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Click to upload an image</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                            <img id="preview" class="hidden w-full h-full object-cover" />
+                        </div>
+                        {{ form.image }}
+                    </div>
+                </div>
+
+                <!-- Title Field -->
+                <div class="mb-6">
+                    <label for="{{ form.title.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                        Post Title
+                    </label>
+                    {{ form.title }}
+                </div>
+
+                <!-- Category and Tags -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                            Category
+                        </label>
+                        {{ form.category }}
+                    </div>
+                    <div>
+                        <label for="{{ form.tag.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                            Tags
+                        </label>
+                        {{ form.tag }}
+                    </div>
+                </div>
+
+                <!-- Content Editor -->
+                <div class="mb-6">
+                    <label for="{{ form.content.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                        Content
+                    </label>
+                    {{ form.media }}
+                    {{ form.content }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                    <button type="submit" 
+                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Publish Post
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<!-- JavaScript for Image Preview -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+    const imagePreview = document.getElementById('imagePreview');
+    const preview = document.getElementById('preview');
+    const uploadText = document.getElementById('uploadText');
+
+    // Style the file input
+    imageInput.className = 'hidden';
+    imageInput.setAttribute('accept', 'image/*');
+
+    imagePreview.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                uploadText.classList.add('hidden');
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+});
+</script>
 {% endblock %}
