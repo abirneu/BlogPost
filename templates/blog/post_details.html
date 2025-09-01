@@ -147,7 +147,7 @@
             </div>
             {% endif %}
             <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">About {{ post.author.get_full_name|default:post.author.username }}</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white"> {{ post.author.get_full_name|default:post.author.username }}</h3>
                 {% if post.author.profile.bio %}
                 <p class="mt-2 text-gray-600 dark:text-gray-300">{{ post.author.profile.bio }}</p>
                 {% else %}
