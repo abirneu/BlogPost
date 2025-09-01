@@ -3,7 +3,7 @@
 
 {% block content %}
 <!-- Hero Section with modern gradient and animation -->
-<section class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 overflow-hidden">
+{% comment %} <section class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 overflow-hidden">
     <div class="absolute inset-0 bg-black opacity-20"></div>
     <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
         <svg width="400" height="400" viewBox="0 0 200 200">
@@ -41,7 +41,278 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
     </div>
+</section> {% endcomment %}
+
+<!-- Hero Section with Carousel -->
+<section class="relative h-[90vh]  bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 overflow-hidden">
+    <!-- Carousel Container -->
+    <div class="relative h-screen max-h-[700px]">
+        <!-- Carousel Slides -->
+        <div id="hero-carousel" class="h-full ">
+            <!-- Slide 1: Your Original Content -->
+            <div class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000
+            bg-[url('/media/carousel/hero1.png')] bg-cover bg-center bg-no-repea ">
+                <div class="absolute inset-0 bg-black opacity-20"></div>
+                <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
+                    <svg width="400" height="400" viewBox="0 0 200 200">
+                        <path fill="currentColor" d="M45,-74.3C59.1,-69.2,71.7,-58.3,79.4,-44.1C87.1,-29.9,90,-12.5,87.9,3.9C85.8,20.2,78.8,35.5,67.8,46.6C56.8,57.7,41.9,64.6,26.5,70.3C11.1,76,-4.8,80.5,-19.2,78.3C-33.6,76.1,-46.5,67.2,-58.1,55.5C-69.7,43.8,-80,29.3,-83.2,13.4C-86.5,-2.5,-82.6,-19.7,-74.2,-34.1C-65.8,-48.5,-52.9,-60.1,-38.7,-65.2C-24.5,-70.2,-9.1,-68.7,4.3,-66C17.7,-63.3,30.9,-59.4,45,-74.3Z" transform="translate(100 100)" />
+                    </svg>
+                </div>
+                
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                    <div class="text-center w-full">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight animate-fade-in-down">
+                            Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">Abir's Blog</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-xl text-blue-100 font-light animate-fade-in-up">
+                            Discover fascinating stories, insights, and knowledge shared by our community of writers.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up">
+                            <a href="{% url 'post_list' %}" class=" px-8 py-4 bg-white text-blue-900 font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                                <span>Explore Blog Posts</span>
+                                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                            {% if not user.is_authenticated %}
+                            <a href="{% url 'signup' %}" class="px-8 py-4 border-2 border-white text-white font-medium rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300">
+                                Join Our Community
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2: New Content -->
+            <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                <div class="absolute inset-0 bg-black opacity-30"></div>
+                <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
+                    <svg width="400" height="400" viewBox="0 0 200 200">
+                        <path fill="currentColor" d="M45,-74.3C59.1,-69.2,71.7,-58.3,79.4,-44.1C87.1,-29.9,90,-12.5,87.9,3.9C85.8,20.2,78.8,35.5,67.8,46.6C56.8,57.7,41.9,64.6,26.5,70.3C11.1,76,-4.8,80.5,-19.2,78.3C-33.6,76.1,-46.5,67.2,-58.1,55.5C-69.7,43.8,-80,29.3,-83.2,13.4C-86.5,-2.5,-82.6,-19.7,-74.2,-34.1C-65.8,-48.5,-52.9,-60.1,-38.7,-65.2C-24.5,-70.2,-9.1,-68.7,4.3,-66C17.7,-63.3,30.9,-59.4,45,-74.3Z" transform="translate(100 100)" />
+                    </svg>
+                </div>
+                
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                    <div class="text-center w-full">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+                            Explore <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">Diverse Topics</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-xl text-blue-100 font-light">
+                            From technology to lifestyle, find content that inspires and informs.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="{% url 'post_list' %}" class="px-8 py-4 bg-white text-blue-900 font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                                <span>Browse Categories</span>
+                                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: New Content -->
+            <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                <div class="absolute inset-0 bg-black opacity-30"></div>
+                <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
+                    <svg width="400" height="400" viewBox="0 0 200 200">
+                        <path fill="currentColor" d="M45,-74.3C59.1,-69.2,71.7,-58.3,79.4,-44.1C87.1,-29.9,90,-12.5,87.9,3.9C85.8,20.2,78.8,35.5,67.8,46.6C56.8,57.7,41.9,64.6,26.5,70.3C11.1,76,-4.8,80.5,-19.2,78.3C-33.6,76.1,-46.5,67.2,-58.1,55.5C-69.7,43.8,-80,29.3,-83.2,13.4C-86.5,-2.5,-82.6,-19.7,-74.2,-34.1C-65.8,-48.5,-52.9,-60.1,-38.7,-65.2C-24.5,-70.2,-9.1,-68.7,4.3,-66C17.7,-63.3,30.9,-59.4,45,-74.3Z" transform="translate(100 100)" />
+                    </svg>
+                </div>
+                
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+                    <div class="text-center w-full">
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+                            Share Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">Unique Voice</span>
+                        </h1>
+                        <p class="mt-6 max-w-2xl mx-auto text-xl text-blue-100 font-light">
+                            Join our community of writers and share your perspectives with the world.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                            {% if not user.is_authenticated %}
+                            <a href="{% url 'signup' %}" class="px-8 py-4 bg-white text-blue-900 font-medium rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                                <span>Start Writing</span>
+                                <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Carousel Controls -->
+        <button id="carousel-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full transition-all z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button id="carousel-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full transition-all z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+            <button class="carousel-indicator w-3 h-3 rounded-full bg-white/80 hover:bg-white transition-all" data-index="0"></button>
+            <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all" data-index="1"></button>
+            <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all" data-index="2"></button>
+        </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+    </div>
 </section>
+
+<!-- The rest of your content remains the same -->
+<!-- Featured Posts Section -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <!-- ... your existing featured posts content ... -->
+</section>
+
+<!-- JavaScript for Carousel -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const prevButton = document.getElementById('carousel-prev');
+        const nextButton = document.getElementById('carousel-next');
+        let currentSlide = 0;
+        let autoPlayInterval;
+        
+        // Function to show a specific slide
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('opacity-100');
+                slide.classList.add('opacity-0');
+            });
+            
+            // Remove active class from all indicators
+            indicators.forEach(indicator => {
+                indicator.classList.remove('bg-white/80');
+                indicator.classList.add('bg-white/50');
+            });
+            
+            // Show the selected slide
+            slides[index].classList.remove('opacity-0');
+            slides[index].classList.add('opacity-100');
+            
+            // Update the active indicator
+            indicators[index].classList.remove('bg-white/50');
+            indicators[index].classList.add('bg-white/80');
+            
+            currentSlide = index;
+        }
+        
+        // Function to show next slide
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+        
+        // Function to show previous slide
+        function prevSlide() {
+            let prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prevIndex);
+        }
+        
+        // Set up event listeners
+        nextButton.addEventListener('click', nextSlide);
+        prevButton.addEventListener('click', prevSlide);
+        
+        // Add click events to indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showSlide(index);
+                resetAutoPlay();
+            });
+        });
+        
+        // Auto-play functionality
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+        
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+        
+        // Initialize the carousel
+        showSlide(0);
+        startAutoPlay();
+        
+        // Pause autoplay when hovering over carousel
+        const carousel = document.getElementById('hero-carousel');
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            startAutoPlay();
+        });
+    });
+</script>
+
+<style>
+    .carousel-slide {
+        transition: opacity 1s ease-in-out;
+    }
+    
+    /* Your existing styles */
+    .animate-fade-in-down {
+        animation: fadeInDown 0.8s ease-out;
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .bg-grid-pattern {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
 
 <!-- Featured Posts Section -->
 <section class="py-16 bg-gray-50 dark:bg-gray-900">
