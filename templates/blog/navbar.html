@@ -18,11 +18,11 @@
                 {% comment %} <a href="{% url 'home_page' %}" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a> {% endcomment %}
                 <a 
                 href="{% url 'post_list' %}" 
-                class="text-gray-600 dark:text-gray-300 footer-link text-gray-300 hover:text-white  hover:text-primary dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                class="text-gray-600 dark:text-gray-300 footer-link text-gray-300 hover:text-gray-900  hover:text-primary dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Blogs</a>
                 <a 
                 href="{% url 'about' %}" 
-                class="text-gray-600 dark:text-gray-300 footer-link text-gray-300 hover:text-white  hover:text-primary dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                class="text-gray-600 dark:text-gray-300 footer-link text-gray-700 hover:text-gray-900  hover:text-primary dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
 
                 {% if user.is_authenticated %}
                     <div class="relative" x-data="{ open: false }">
