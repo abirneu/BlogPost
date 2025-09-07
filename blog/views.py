@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Post, Category, Tag, Comment, Profile
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+from . models import Post, Category, Tag, Comment, Profile, Subscriber
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login, logout
@@ -13,6 +17,47 @@ def about_page(request):
     View function for the about page.
     """
     return render(request, 'blog/about.html')
+
+def subscribe_youtube(request):
+    """
+    Handle YouTube channel subscription
+    """
+    if request.method == 'POST' and request.is_ajax():
+        email = request.POST.get('email')
+        
+        if not email:
+            return JsonResponse({'status': 'error', 'message': 'Email is required'})
+        
+        try:
+            # Create or update subscriber
+            subscriber, created = Subscriber.objects.get_or_create(email=email)
+            
+            # Send confirmation email
+            subject = 'Welcome to My YouTube Channel!'
+            message = render_to_string('blog/email/youtube_subscription.html', {
+                'email': email,
+                'channel_url': 'https://www.youtube.com/@abirhasan__'  # Replace with your channel URL
+            })
+            
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+                html_message=message
+            )
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Thank you for subscribing! Please check your email.'
+            })
+            
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            })
 
 def post_list(request):
     categoryQ = request.GET.get('category')

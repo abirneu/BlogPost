@@ -390,7 +390,7 @@
 </section>
 
 <!-- Trending Posts Section -->
-<section class="py-16 bg-white dark:bg-gray-800">
+<section class="py-16  dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
             <div>
@@ -485,63 +485,67 @@
 </section>
 
 <!-- Stats Section -->
-<section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-800 dark:to-indigo-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-16dark:bg-gray-900 text-black dark:text-white">
+    <div class="max-w-7xlbg-white dark:bg-gray-900  p-4 mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl font-bold">Our Community <span class="text-blue-200">by Numbers</span></h2>
-            <p class="mt-4 text-blue-100 max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Our Community <span class="text-stone-700 dark:text-stone-400">by Numbers</span></h2>
+            <p class="mt-4 text-black dark:text-white max-w-2xl mx-auto">
                 Join thousands of readers and writers who are already part of our growing community
             </p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center  ">
+            <div class="bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 shadow-lg dark:bg-gray-800 rounded-2xl p-8 ">
                 <div class="text-5xl font-bold mb-2">{{ total_posts }}+</div>
-                <div class="text-blue-200 font-medium">Articles Published</div>
+                <div class="font-medium">Articles Published</div>
             </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+            <div class="bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 shadow-lg dark:bg-gray-800 rounded-2xl p-8">
                 <div class="text-5xl font-bold mb-2">{{ total_authors }}+</div>
-                <div class="text-blue-200 font-medium">Creative Writers</div>
+                <div class="font-medium">Creative Writers</div>
             </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+            <div class="bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-300 shadow-lg dark:bg-gray-800 rounded-2xl p-8">
                 <div class="text-5xl font-bold mb-2">{{ total_comments }}+</div>
-                <div class="text-blue-200 font-medium">Engaging Comments</div>
+                <div class="font-medium">Engaging Comments</div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="py-16 bg-white dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl overflow-hidden shadow-xl">
-            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-            
+<section class="py-16">
+    <div class="relative bg-slate-100 dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative px-6 py-12 sm:px-12 sm:py-16 lg:py-20 lg:px-16">
                 <div class="lg:flex lg:items-center lg:justify-between">
                     <div class="lg:w-0 lg:flex-1">
-                        <h2 class="text-3xl font-bold text-white">Stay updated with our latest posts</h2>
-                        <p class="mt-4 max-w-3xl text-lg text-blue-100">
+                        <h2 class="text-3xl font-bold text-black dark:text-white">Stay updated with our latest posts</h2>
+                        <p class="mt-4 max-w-3xl text-lg text-black dark:text-white ">
                             Get the newest articles delivered directly to your inbox. No spam, just quality content.
                         </p>
                     </div>
                     <div class="mt-8 lg:mt-0 lg:ml-8">
-                        <form class="sm:flex">
+                        <form id="youtubeSubscribeForm" class="sm:flex">
+                            {% csrf_token %}
                             <label for="email-address" class="sr-only">Email address</label>
-                            <input id="email-address" name="email-address" type="email" autocomplete="email" required 
-                                   class="w-full px-5 py-3 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white rounded-md"
+                            <input id="email-address" name="email" type="email" autocomplete="email" required 
+                                   class="w-full px-5 py-3 placeholder-gray-500 text-gray-900 dark:text-white-100 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white rounded-md"
                                    placeholder="Enter your email">
-                            <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent shadow text-base font-medium rounded-md text-blue-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
-                                Subscribe
+                            <button type="submit" class="mt-3 w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#FF0000] hover:bg-[#CC0000] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF0000] sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23 12.1c0-1.1-.1-2.2-.3-3.2-.2-1.1-.6-2-1.3-2.7-.7-.7-1.7-1.1-2.7-1.3-3.2-.3-6.4-.3-9.6-.3s-6.4 0-9.6.3c-1.1.2-2 .6-2.7 1.3-.7.7-1.1 1.7-1.3 2.7C-.1 10-.1 11.1-.1 12.1c0 1.1.1 2.2.3 3.2.2 1.1.6 2 1.3 2.7.7.7 1.7 1.1 2.7 1.3 3.2.3 6.4.3 9.6.3s6.4 0 9.6-.3c1.1-.2 2-.6 2.7-1.3.7-.7 1.1-1.7 1.3-2.7.2-1.1.3-2.2.3-3.2zM9.7 15.7V8.4l6.8 3.7-6.8 3.6z"/>
+                                </svg>
+                                Subscribe Now
                             </button>
                         </form>
-                        <p class="mt-3 text-sm text-blue-200">
+                        <p class="mt-3 text-sm text-black dark:text-white">
                             We respect your privacy. Unsubscribe at any time.
                         </p>
+                        <div id="subscriptionMessage" class="mt-3 text-sm hidden">
+                            <p class="success-message text-green-600 dark:text-green-400 hidden"></p>
+                            <p class="error-message text-red-600 dark:text-red-400 hidden"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </section>
 
@@ -587,4 +591,50 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('youtubeSubscribeForm');
+    const successMessage = document.querySelector('.success-message');
+    const errorMessage = document.querySelector('.error-message');
+    const messageContainer = document.getElementById('subscriptionMessage');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = form.querySelector('input[name="email"]').value;
+        const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+        fetch('{% url "subscribe_youtube" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: `email=${encodeURIComponent(email)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            messageContainer.classList.remove('hidden');
+            if (data.status === 'success') {
+                successMessage.textContent = data.message;
+                successMessage.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                form.reset();
+            } else {
+                errorMessage.textContent = data.message;
+                errorMessage.classList.remove('hidden');
+                successMessage.classList.add('hidden');
+            }
+        })
+        .catch(error => {
+            messageContainer.classList.remove('hidden');
+            errorMessage.textContent = 'An error occurred. Please try again.';
+            errorMessage.classList.remove('hidden');
+            successMessage.classList.add('hidden');
+        });
+    });
+});
+</script>
 {% endblock %}
