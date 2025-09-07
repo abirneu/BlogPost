@@ -4,20 +4,11 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<section class="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 min-h-screen flex items-center justify-center py-16 px-4">
-    <div class="absolute inset-0 bg-black opacity-20"></div>
-    <!-- Decorative SVG -->
-    <div class="absolute top-0 right-0 -mt-16 mr-16 opacity-10">
-        <svg width="400" height="400" viewBox="0 0 200 200">
-            <path fill="currentColor" d="M45,-74.3C59.1,-69.2,71.7,-58.3,79.4,-44.1C87.1,-29.9,90,-12.5,87.9,3.9C85.8,20.2,78.8,35.5,67.8,46.6C56.8,57.7,41.9,64.6,26.5,70.3C11.1,76,-4.8,80.5,-19.2,78.3C-33.6,76.1,-46.5,67.2,-58.1,55.5C-69.7,43.8,-80,29.3,-83.2,13.4C-86.5,-2.5,-82.6,-19.7,-74.2,-34.1C-65.8,-48.5,-52.9,-60.1,-38.7,-65.2C-24.5,-70.2,-9.1,-68.7,4.3,-66C17.7,-63.3,30.9,-59.4,45,-74.3Z" transform="translate(100 100)" />
-        </svg>
-    </div>
-
+<section class="relative bg-white dark:bg-gray-900  min-h-screen flex items-center justify-center py-16 px-4">
     <div class="relative w-full max-w-md">
-        <form method="post" class="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6 transform transition-all duration-300 hover:scale-[1.02]" id="signupForm">
+        <form method="post" class="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6 " id="signupForm">
             {% csrf_token %}
-            <h2 class="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 mb-8">Join Our Community</h2>
-            
+            <h2 class="text-3xl font-bold text-center  text-gray-900 dark:text-white  dark:text-gray-800 dark:to-indigo-400 mb-8">Join Our Community</h2>
             {% if form.errors %}
             <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
                 <p class="text-red-600 dark:text-red-400 text-sm font-medium">Please correct the errors below.</p>
@@ -26,7 +17,7 @@
 
             {% for field in form %}
             <div class="space-y-2">
-                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300" >
                     {{ field.label }}
                 </label>
                 <div class="relative">
@@ -41,10 +32,10 @@
                     {% endif %}
                 </div>
                 {% if field.errors %}
-                <p class="text-red-500 dark:text-red-400 text-xs mt-1">{{ field.errors|striptags }}</p>
+                <p class="text-red-500 dark:text-gray-200 text-xs mt-1">{{ field.errors|striptags }}</p>
                 {% endif %}
                 {% if field.help_text %}
-                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">{{ field.help_text|safe }}</p>
+                <p class="text-gray-500 dark:text-gray-200 text-xs mt-1">{{ field.help_text|safe }}</p>
                 {% endif %}
             </div>
             {% endfor %}
