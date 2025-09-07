@@ -8,6 +8,12 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
+def about_page(request):
+    """
+    View function for the about page.
+    """
+    return render(request, 'blog/about.html')
+
 def post_list(request):
     categoryQ = request.GET.get('category')
     tagQ = request.GET.get('tag')

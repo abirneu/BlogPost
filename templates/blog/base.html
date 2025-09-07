@@ -7,18 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Abir's Blog{% endblock title %}</title>
     
+    <!-- Prevent theme flash -->
+    <script>
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Alpine.js for interactivity -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
     
     <!-- Heroicons -->
     <link href="https://cdn.jsdelivr.net/npm/@heroicons/react@2.0.18/outline.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -28,25 +39,20 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50 dark:bg-gray-900" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900" x-data :class="{ 'dark': $store.darkMode.on }">
     
     {% include "blog/navbar.html" %}
 
 
     <main>
-        {% block content %}{% endblock content %}
+        {% block content %}
+        <h1 class="libertinus-serif">Your Heading</h1>
+        {% endblock content %}
     </main>
 
     {% include "blog/footer.html" %}
 
     <!-- JavaScript -->
-    <script>
-        // Check for dark mode preference
-        if (localStorage.getItem('darkMode') === 'true' || 
-            (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.querySelector('body').__x.$data.darkMode = true;
-        }
-    </script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -55,11 +61,32 @@
                     colors: {
                         primary: '#1e40af',
                         secondary: '#6b7280',
-                    }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse-slow 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
                 }
             }
         }
     </script>
 
+    <!-- Initialize Alpine.js data -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('darkMode', {
+                on: localStorage.getItem('darkMode') === 'true' || 
+                    (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                toggle() {
+                    this.on = !this.on;
+                    localStorage.setItem('darkMode', this.on);
+                    if (this.on) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+            })
+        })
+    </script>
 </body>
 </html>
